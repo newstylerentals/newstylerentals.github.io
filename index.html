@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW STYLE RENTALS LLC | Industrial Machinery Leasing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0F1115',
+                            dark: '#181A20',
+                            gray: '#262A33',
+                            accent: '#FFD700', 
+                            accentHover: '#E6C200',
+                            text: '#E0E0E0',
+                            muted: '#9CA3AF'
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right bottom, rgba(15, 17, 21, 0.9), rgba(15, 17, 21, 0.7)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
+                        'dots': "radial-gradient(#262A33 1px, transparent 1px)"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0F1115;
+            color: #E0E0E0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #181A20; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFD700; 
+        }
+
+        /* Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .nav-glass {
+            background: rgba(15, 17, 21, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+
+        .input-field {
+            background-color: #181A20;
+            border: 1px solid #262A33;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            border-color: #FFD700;
+        }
+
+        .process-step-line::after {
+            content: '';
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #262A33;
+            z-index: -1;
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .process-step-line::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans selection:bg-brand-accent selection:text-brand-black">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 nav-glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-brand-accent rounded flex items-center justify-center text-brand-black font-bold text-xl">
+                        N
+                    </div>
+                    <span class="font-bold text-xl tracking-wider text-white">NEW STYLE <span class="text-brand-accent">RENTALS</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-sm font-medium text-gray-300 hover:text-brand-accent transition-colors">About</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-accent transition-colors">Services</a>
+                    <a href="#process" class="text-sm font-medium text-gray-300 hover:text-brand-accent transition-colors">Process</a>
+                    <button onclick="openModal()" class="px-6 py-2.5 bg-brand-accent hover:bg-brand-accentHover text-brand-black font-bold text-sm rounded transition-colors duration-300">
+                        Get a Quote
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">About</a>
+                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Services</a>
+                <a href="#process" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Process</a>
+                <button onclick="openModal()" class="w-full text-left block px-3 py-2 text-brand-accent font-bold">Contact Us</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <header class="relative h-screen min-h-[600px] flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-fixed bg-no-repeat">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-black/20 to-brand-black"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-section is-visible">
+            <div class="inline-block mb-4 px-4 py-1.5 rounded-full border border-brand-accent/30 bg-brand-accent/10 backdrop-blur-sm">
+                <span class="text-brand-accent text-xs font-bold tracking-widest uppercase">Premier Equipment Solutions</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                Empowering Industry <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-200">With Heavy Power</span>
+            </h1>
+            
+            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-300 font-light leading-relaxed">
+                Reliable commercial machinery leasing and industrial equipment rentals designed to keep your projects in Davenport moving forward without interruption.
+            </p>
+            
+            <div class="mt-10 flex justify-center gap-4">
+                <button onclick="openModal()" class="px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-brand-black font-bold rounded text-lg transition-all transform hover:scale-105 shadow-lg shadow-brand-accent/20">
+                    Request Equipment
+                </button>
+                <a href="#services" class="px-8 py-4 bg-transparent border border-gray-600 hover:border-white text-white font-semibold rounded text-lg transition-all hover:bg-white/5">
+                    View Fleet
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. ABOUT US SECTION -->
+    <section id="about" class="py-24 bg-brand-black relative overflow-hidden">
+        <!-- Background decorative element -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-dark/50 transform skew-x-12 translate-x-20 z-0 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="fade-in-section">
+                    <h4 class="text-brand-accent font-bold text-sm uppercase tracking-widest mb-2">Who We Are</h4>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Your Strategic Partner in <br>Industrial Leasing</h2>
+                    
+                    <div class="space-y-4 text-brand-muted text-lg leading-relaxed">
+                        <p>
+                            New Style Rentals LLC is a premier provider of heavy machinery and industrial equipment solutions based in Davenport, Florida.
+                            Established with a vision to streamline construction and industrial operations, we specialize in offering a versatile fleet that meets the rigorous demands of modern projects.
+                        </p>
+                        <p>
+                            We understand that downtime is costly, which is why every piece of equipment in our inventory undergoes strict maintenance protocols before it reaches your site.
+                            Our team is composed of industry experts dedicated to analyzing your specific project needs and recommending the most efficient machinery configurations.
+                        </p>
+                        <p>
+                            Whether you require earthmoving giants for large-scale construction or precise material handling units for warehouse logistics, New Style Rentals delivers reliability you can trust.
+                            We pride ourselves on transparent leasing terms and a commitment to safety that exceeds industry standards.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex items-center gap-8">
+                        <div>
+                            <span class="block text-3xl font-bold text-white">100%</span>
+                            <span class="text-sm text-gray-500 uppercase">Compliance</span>
+                        </div>
+                        <div class="w-px h-12 bg-gray-700"></div>
+                        <div>
+                            <span class="block text-3xl font-bold text-white">24/7</span>
+                            <span class="text-sm text-gray-500 uppercase">Support</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative fade-in-section">
+                    <div class="relative rounded-lg overflow-hidden shadow-2xl border border-gray-800 group">
+                        <div class="absolute inset-0 bg-brand-accent/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Industrial Machinery" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Floater Card -->
+                    <div class="absolute -bottom-10 -left-10 bg-brand-dark p-6 rounded shadow-xl border border-gray-800 hidden md:block">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand-accent rounded-full p-3 text-brand-black">
+                                <i class="fas fa-certificate text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-white font-bold">Certified Equipment</p>
+                                <p class="text-xs text-gray-400">Regularly Inspected</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SERVICES SECTION -->
+    <section id="services" class="py-24 bg-brand-dark border-y border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in-section">
+                <h4 class="text-brand-accent font-bold text-sm uppercase tracking-widest mb-2">Our Expertise</h4>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Comprehensive Rental Solutions</h2>
+                <p class="mt-4 text-brand-muted">We provide a diverse range of high-performance machinery tailored to scale with your operational requirements.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Service 1 -->
+                <div class="feature-card bg-brand-black p-8 rounded-xl border border-gray-800 transition-all duration-300 fade-in-section">
+                    <div class="w-14 h-14 bg-brand-gray rounded-lg flex items-center justify-center text-brand-accent mb-6 text-2xl">
+                        <i class="fas fa-truck-monster"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Heavy Earthmoving</h3>
+                    <p class="text-brand-muted leading-relaxed mb-6">
+                        Access top-tier excavators, bulldozers, and loaders designed for major construction and excavation projects.
+                        Our fleet ensures maximum torque and stability for rough terrains, allowing you to move earth efficiently.
+                        Every unit is equipped with modern safety features to protect your crew on site.
+                    </p>
+                    <a href="javascript:void(0)" onclick="openModal()" class="inline-flex items-center text-brand-accent font-semibold hover:text-white transition-colors">
+                        Inquire Now <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="feature-card bg-brand-black p-8 rounded-xl border border-gray-800 transition-all duration-300 fade-in-section" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-brand-gray rounded-lg flex items-center justify-center text-brand-accent mb-6 text-2xl">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Material Handling</h3>
+                    <p class="text-brand-muted leading-relaxed mb-6">
+                        Optimize your warehousing and logistics with our reliable forklifts, telehandlers, and scissor lifts.
+                        Designed for precision and maneuverability, these units help streamline inventory management and vertical construction tasks.
+                        We offer various load capacities to suit both light industrial and heavy-duty applications.
+                    </p>
+                    <a href="javascript:void(0)" onclick="openModal()" class="inline-flex items-center text-brand-accent font-semibold hover:text-white transition-colors">
+                        Inquire Now <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="feature-card bg-brand-black p-8 rounded-xl border border-gray-800 transition-all duration-300 fade-in-section" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-brand-gray rounded-lg flex items-center justify-center text-brand-accent mb-6 text-2xl">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Power & Compressors</h3>
+                    <p class="text-brand-muted leading-relaxed mb-6">
+                        Ensure continuous operation with our industrial-grade generators and high-pressure air compressors.
+                        Essential for remote sites or emergency backup, our power solutions are fuel-efficient and meticulously maintained.
+                        Keep your pneumatic tools running and your site illuminated without interruption.
+                    </p>
+                    <a href="javascript:void(0)" onclick="openModal()" class="inline-flex items-center text-brand-accent font-semibold hover:text-white transition-colors">
+                        Inquire Now <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ADVANTAGES SECTION (Why Choose Us) -->
+    <section class="py-24 bg-brand-black bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div class="fade-in-section">
+                    <h4 class="text-brand-accent font-bold text-sm uppercase tracking-widest mb-2">Our Advantages</h4>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">Why Industry Leaders <br>Choose New Style Rentals</h2>
+                    
+                    <div class="space-y-8">
+                        <!-- Advantage 1 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-check-circle text-brand-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Rigorous Maintenance Standards</h3>
+                                <p class="text-gray-400 mt-2">
+                                    We don't just rent equipment; we guarantee performance. Every machine undergoes a comprehensive multi-point inspection before and after every lease to ensure zero downtime for your project.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Advantage 2 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-check-circle text-brand-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Flexible Leasing Terms</h3>
+                                <p class="text-gray-400 mt-2">
+                                    Understanding that project timelines change, we offer highly adaptable rental agreements. From short-term daily rentals to long-term seasonal leases, we align with your schedule.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Advantage 3 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fas fa-check-circle text-brand-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Rapid Regional Deployment</h3>
+                                <p class="text-gray-400 mt-2">
+                                    Located strategically in Davenport, FL, we possess the logistics capability to deliver heavy machinery to your site swiftly. Our logistics team ensures your equipment arrives exactly when you need it.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative h-full min-h-[400px] fade-in-section">
+                    <div class="absolute inset-0 bg-gradient-to-r from-brand-accent to-yellow-600 rounded-2xl transform rotate-3 opacity-20"></div>
+                    <div class="absolute inset-0 bg-gray-800 rounded-2xl overflow-hidden border border-gray-700">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Construction Site Architecture" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-500">
+                        <div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black to-transparent">
+                            <p class="text-white font-bold text-lg">"Reliability is our currency."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PROCESS SECTION (How We Work) -->
+    <section id="process" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-section">
+                <h4 class="text-brand-accent font-bold text-sm uppercase tracking-widest mb-2">Workflow</h4>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Streamlined Rental Process</h2>
+            </div>
+
+            <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8 process-step-line">
+                
+                <!-- Step 1 -->
+                <div class="relative z-10 text-center fade-in-section">
+                    <div class="w-20 h-20 mx-auto bg-brand-black border-2 border-brand-accent rounded-full flex items-center justify-center text-2xl font-bold text-white mb-6 shadow-lg shadow-brand-accent/20">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Consultation & Selection</h3>
+                    <p class="text-brand-muted text-sm px-4">
+                        Contact us with your project requirements. Our experts analyze your needs and help you select the precise machinery specifications for your task.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 text-center fade-in-section" style="transition-delay: 150ms;">
+                    <div class="w-20 h-20 mx-auto bg-brand-black border-2 border-brand-accent rounded-full flex items-center justify-center text-2xl font-bold text-white mb-6 shadow-lg shadow-brand-accent/20">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Agreement & Logistics</h3>
+                    <p class="text-brand-muted text-sm px-4">
+                        We finalize a transparent rental agreement and schedule delivery. Our team handles the transportation logistics to get the gear to your site safely.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 text-center fade-in-section" style="transition-delay: 300ms;">
+                    <div class="w-20 h-20 mx-auto bg-brand-black border-2 border-brand-accent rounded-full flex items-center justify-center text-2xl font-bold text-white mb-6 shadow-lg shadow-brand-accent/20">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Support & Completion</h3>
+                    <p class="text-brand-muted text-sm px-4">
+                        Enjoy full support during the rental period. Once your project is complete, we coordinate the efficient pickup and return of the equipment.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mt-16 text-center">
+                <button onclick="openModal()" class="px-10 py-3 border border-brand-accent text-brand-accent font-bold rounded hover:bg-brand-accent hover:text-brand-black transition-all duration-300">
+                    Start Your Process
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PHRASES / PRE-FOOTER -->
+    <section class="py-16 bg-brand-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-black">Ready to elevate your operational capacity?</h2>
+                <p class="text-brand-dark/80 font-medium mt-1">Get a custom quote within 24 hours.</p>
+            </div>
+            <button onclick="openModal()" class="bg-brand-black text-white px-8 py-4 rounded font-bold hover:bg-gray-800 transition-colors shadow-lg whitespace-nowrap">
+                Contact Us Now
+            </button>
+        </div>
+    </section>
+
+    <!-- 7. FOOTER -->
+    <footer class="bg-brand-black pt-16 pb-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-brand-accent rounded flex items-center justify-center text-brand-black font-bold">N</div>
+                        <span class="text-xl font-bold text-white">NEW STYLE <span class="text-brand-accent">RENTALS</span></span>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-sm">
+                        Leading provider of commercial and industrial machinery leasing services. We empower construction and industrial sectors with reliable equipment solutions.
+                    </p>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#about" class="hover:text-brand-accent transition-colors">About Us</a></li>
+                        <li><a href="#services" class="hover:text-brand-accent transition-colors">Services</a></li>
+                        <li><a href="#process" class="hover:text-brand-accent transition-colors">Our Process</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info (No Phone) -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contact</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-brand-accent mt-1"></i>
+                            <span>159 Hillside Dr,<br>33897 Davenport, FL</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-brand-accent"></i>
+                            <a href="mailto:main@newstylerentals.info" class="hover:text-white transition-colors">main@newstylerentals.info</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-600 text-xs">
+                    &copy; 2024 NEW STYLE RENTALS LLC. All rights reserved.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-600 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-600 hover:text-white transition-colors"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CONTACT FORM MODAL -->
+    <div id="contactModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 modal-overlay" onclick="closeModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg px-4">
+            <div class="bg-brand-dark border border-gray-700 rounded-lg shadow-2xl p-8 relative animate-fade-in-up">
+                
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+
+                <h3 class="text-2xl font-bold text-white mb-2">Request Information</h3>
+                <p class="text-gray-400 text-sm mb-6">Fill out the form below and our team will get back to you via email shortly.</p>
+
+                <form id="rentalForm" onsubmit="handleFormSubmit(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                            <input type="text" id="name" required class="w-full px-4 py-3 rounded input-field focus:ring-1 focus:ring-brand-accent" placeholder="John Doe">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                            <input type="email" id="email" required class="w-full px-4 py-3 rounded input-field focus:ring-1 focus:ring-brand-accent" placeholder="john@company.com">
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-xs font-bold text-gray-500 uppercase mb-1">Inquiry Type</label>
+                            <select id="subject" class="w-full px-4 py-3 rounded input-field focus:ring-1 focus:ring-brand-accent">
+                                <option>General Inquiry</option>
+                                <option>Equipment Availability</option>
+                                <option>Leasing Terms</option>
+                                <option>Partnership</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs font-bold text-gray-500 uppercase mb-1">Message</label>
+                            <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded input-field focus:ring-1 focus:ring-brand-accent" placeholder="Tell us about your project requirements..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-accent text-brand-black font-bold py-3 rounded hover:bg-brand-accentHover transition-colors mt-2">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" class="fixed inset-0 z-[110] hidden">
+        <div class="absolute inset-0 modal-overlay"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-sm px-4">
+            <div class="bg-brand-dark border border-brand-accent/50 rounded-lg shadow-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-brand-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-accent">
+                    <i class="fas fa-check text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                <p class="text-gray-400 mb-6">Thank you for contacting New Style Rentals. We have received your inquiry and will respond to your email shortly.</p>
+                <button onclick="closeSuccessModal()" class="bg-brand-accent text-brand-black px-6 py-2 rounded font-bold hover:bg-brand-accentHover transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Modal Functions
+        function openModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Form Handling
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Simulate processing
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Sending...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                // Reset form
+                event.target.reset();
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                
+                // Close contact modal, open success modal
+                closeModal();
+                const successModal = document.getElementById('successModal');
+                successModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }, 1000);
+        }
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+                nav.style.paddingTop = '0';
+                nav.style.paddingBottom = '0';
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>
